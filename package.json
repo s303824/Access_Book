@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server/server.js"
+    "dev": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,8 +13,12 @@
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.0",
     "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.8.1"
+    "mongoose": "^6.8.1",
+    "multer": "^1.4.5-lts.1",
+    "pdfjs-dist": "^3.1.81"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

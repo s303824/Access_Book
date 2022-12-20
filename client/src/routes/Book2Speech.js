@@ -7,8 +7,8 @@ import { GlobalStoreContext } from '../store'
 function Book2Speech() {
   const { store } = useContext(GlobalStoreContext);
 
-  const handleInput = (event) =>{
-    store.storeFile(event);
+  const handleInput = (e) =>{
+    store.createAudioFile(e.target.files[0]);
   }
   
   return (

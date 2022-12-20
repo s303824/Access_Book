@@ -8,7 +8,7 @@ function Translate() {
   const { store } = useContext(GlobalStoreContext);
 
   const handleInput = (event) =>{
-    store.storeFile(event.target.files[0]);
+    store.createAudioFile(event.target.files[0]);
   }
   
   return (
