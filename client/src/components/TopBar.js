@@ -32,7 +32,7 @@ function TopBar(){
     return (
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="sticky">
-            <Toolbar sx={{justifyContent: 'center',}}>
+            <Toolbar sx={{justifyContent: 'center'}}>
               <IconButton
                 size="large"
                 edge="start"
@@ -55,7 +55,7 @@ function TopBar(){
         <MenuItem onClick={handleSpeech}>Book2Speech</MenuItem>
         <MenuItem onClick={handleTranslate}>Translate!</MenuItem>
               </Menu>
-              <div justifyContent='center'>
+              <div>
                   <Button variant="text" onClick={handleReturn}>
                     <Typography variant="h3" component="div" sx={{ flexGrow: 1, textAlign:"center", color:"white" }}>
                       Access Book
