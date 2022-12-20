@@ -35,7 +35,6 @@ function AudioPlayer(props) {
     setCurrentTime(newValue);
   };
 
-
   // Render the audio player
   return (
     <Grid container style={{ backgroundColor: 'black' }}>
@@ -62,7 +61,7 @@ function AudioPlayer(props) {
       </Grid>
       <Grid item setIsPlaying>
         <Typography id="audio-seek">
-          {currentTime.toFixed(2)} / {duration.toFixed(2)}
+          {currentTime.toFixed(0)} / {duration.toFixed(0)}
         </Typography>
       </Grid>
 
