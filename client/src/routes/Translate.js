@@ -1,5 +1,5 @@
 import '../App.css';
-import logo from '../assets/megaphone.jpg';
+import logo from '../assets/translate.jpg';
 import { Button } from '@mui/material';
 import { useState, useContext } from "react";
 import { GlobalStoreContext } from '../store'
@@ -13,7 +13,7 @@ function Translate() {
   
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header2">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Select a book and we'll translate it to you!

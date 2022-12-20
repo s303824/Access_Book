@@ -18,7 +18,7 @@ function TopBar(){
     };
     const handleSpeech = () => {
         setAnchorEl(null);
-        navigate("/speech");
+        navigate("/");
     }
     const handleTranslate = () => {
         setAnchorEl(null);
