@@ -1,9 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Button, Grid , IconButton, Typography, Slider } from '@mui/material';
+import { Grid , IconButton, Typography, Slider } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+
 function AudioPlayer(props) {
   // Create a reference to the audio element
   const audioRef = useRef(null);
@@ -12,6 +15,7 @@ function AudioPlayer(props) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMute, setIsMute] = useState(false);
 
+  const [volume, setVolume] = useState(0.5);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -25,6 +29,15 @@ function AudioPlayer(props) {
     setIsPlaying(!isPlaying);
   };
 
+  const toggleMute = () => {
+    if (isMute) {
+      audioRef.current.volume = volume;
+    } else {
+      audioRef.current.volume = 0;
+    }
+    setIsMute(!isMute);
+  };
+
   const handleTimeUpdate = () => {
     setCurrentTime(audioRef.current.currentTime);
     setDuration(audioRef.current.duration);
@@ -34,6 +47,14 @@ function AudioPlayer(props) {
     audioRef.current.currentTime = newValue;
     setCurrentTime(newValue);
   };
+
+  const updateVolume = (event) => {
+    audioRef.current.volume = event.target.value;
+    setVolume(event.target.value);
+    if(event.target.value == 0.0){
+      toggleMute();
+    }
+  }
 
   // Render the audio player
   return (
@@ -64,13 +85,20 @@ function AudioPlayer(props) {
           {currentTime.toFixed(0)} / {duration.toFixed(0)}
         </Typography>
       </Grid>
+      <Grid item>
+      <IconButton style={{ color: 'white' }}><SkipPreviousIcon/></IconButton>
+      </Grid>
+      <Grid item>
+      <IconButton style={{ color: 'white' }}><SkipNextIcon/></IconButton>
+      </Grid>
 
-      <Grid item xs={1}>
-      <IconButton style={{ color: 'white' }}>{isMute ? <VolumeOffIcon/> : <VolumeUpIcon/>}</IconButton>
+
+      <Grid item>
+      <IconButton style={{ color: 'white' }} onClick={toggleMute}>{isMute ? <VolumeOffIcon/> : <VolumeUpIcon/>}</IconButton>
       </Grid>
 
       <Grid item xs={1}>
-      <Slider style={{ color: 'white' }}/>
+      <Slider style={{ color: 'white' }} value={volume} min={0} max={1} step={0.01} onChange={updateVolume} />
       </Grid>
 
     </Grid >
