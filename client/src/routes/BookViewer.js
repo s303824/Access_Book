@@ -14,7 +14,7 @@ function BookViewer() {
 
   return (
     <header className=".App-header">
-      <AudioPlayer src="https://ia600707.us.archive.org/20/items/walden_librivox/walden_c01_p01.mp3"/>
+      <AudioPlayer src={store.audio}/>
       <Typography>{store.text}</Typography>
     </header>
   );

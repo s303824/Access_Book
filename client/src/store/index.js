@@ -11,6 +11,7 @@ export const GlobalStoreContext = createContext();
 function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         file: null,
+        audio : "https://ia600707.us.archive.org/20/items/walden_librivox/walden_c01_p01.mp3",
         pageNum: 1,
         text : "",
         count : 1
@@ -28,6 +29,7 @@ function GlobalStoreContextProvider(props) {
             console.log(response.data.text);
             setStore({
               file : selectedFile,
+              audio : store.audio,
               pageNum : 1,
               text : response.data.text,
               count : response.data.pageCount
@@ -47,6 +49,7 @@ function GlobalStoreContextProvider(props) {
         console.log(response.data.text);
         setStore({
             file : store.file,
+            audio : store.audio,
             pageNum : store.pageNum + 1,
             text : response.data.text,
             count : response.data.pageCount
@@ -66,6 +69,7 @@ function GlobalStoreContextProvider(props) {
       console.log(response.data.text);
       setStore({
           file : store.file,
+          audio : store.audio,
           pageNum : store.pageNum - 1,
           text : response.data.text,
           count : response.data.pageCount
