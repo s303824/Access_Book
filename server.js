@@ -24,7 +24,7 @@ app.post('/createAudioFile', upload.single('pdf'), (req, res) => {
     data: pdfFile.buffer,
   };
 
-  let text = "Here is the first message: ";
+  let text = "";
   var loadingTask = pdfjs.getDocument(source);
 
   loadingTask.promise.then(function(doc) {
@@ -38,18 +38,6 @@ app.post('/createAudioFile', upload.single('pdf'), (req, res) => {
       });
     });
   });
-
-  /*
-  pdfjs.getDocument(source).then((doc) => {
-    doc.getPage(1).then((page) => {
-      page.getTextContent().then((content) => {
-        content.items.forEach((item) => {
-          text += item.str;
-        });
-      });
-    });
-  });*/
-
 });
 app.listen(4000, () => {
   console.log('Server listening on port 4000');
