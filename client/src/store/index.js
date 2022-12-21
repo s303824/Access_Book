@@ -15,23 +15,19 @@ function GlobalStoreContextProvider(props) {
         });
     const navigate= useNavigate();
 
-    store.createAudioFile =  (selectedFile) => {
+    store.createAudioFile =  (selectedFile, index) => {
         console.log(selectedFile);
 
         const formData = new FormData();
         formData.append('pdf', selectedFile);
-      
+        formData.append('number', index);
+
         api.post('/createAudioFile', formData).then((response) => {
             console.log(response.data);
           }).catch((error) => {
             console.error(error);
           });
-        /*const reader = new FileReader();
-        reader.onload = (e) => {
-            setStore({file : e.target.result});
-        };
-        reader.readAsDataURL(e.target.files[0]);
-        navigate('/read');*/
+         navigate('/read');
     }
 
       

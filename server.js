@@ -18,8 +18,10 @@ app.post('/createAudioFile', upload.single('pdf'), (req, res) => {
   // req.file contains the PDF file
   // process the file as needed
   const pdfFile = req.file;
-  console.log(pdfFile);
+  const index = Number(req.body.number);
 
+  console.log(pdfFile);
+  console.log("Page number: " + index);
   const source = {
     data: pdfFile.buffer,
   };
@@ -28,7 +30,12 @@ app.post('/createAudioFile', upload.single('pdf'), (req, res) => {
   var loadingTask = pdfjs.getDocument(source);
 
   loadingTask.promise.then(function(doc) {
-    doc.getPage(1).then((page) => {
+    console.log("Number of pages: " + doc.numPages);
+    if(index < 1 || index >  doc.numPages){
+      res.send("INVALID PAGE NUMBER")
+    }
+
+    doc.getPage(index).then((page) => {
       page.getTextContent().then((content) => {
         content.items.forEach((item) => {
           console.log(item.str)

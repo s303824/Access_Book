@@ -59,7 +59,7 @@ function AudioPlayer(props) {
       max={duration}
       />
       </Grid>
-      <Grid item setIsPlaying>
+      <Grid item>
         <Typography id="audio-seek">
           {currentTime.toFixed(0)} / {duration.toFixed(0)}
         </Typography>
