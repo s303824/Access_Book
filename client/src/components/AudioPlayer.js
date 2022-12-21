@@ -67,9 +67,25 @@ function AudioPlayer(props) {
       store.prevPage();
   }
 
+  const secondsToHHMMSS = (seconds) =>{
+    seconds = Number(seconds);
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+    var seconds = seconds - (hours * 3600) - (minutes * 60);
+  
+    // round seconds
+    seconds = Math.round(seconds * 100) / 100
+  
+    var result = (hours < 10 ? "0" + hours : hours);
+      result += ":" + (minutes < 10 ? "0" + minutes : minutes);
+      result += ":" + (seconds  < 10 ? "0" + seconds : seconds);
+    return result;
+  }
+
   // Render the audio player
   return (
-    <Grid container style={{ backgroundColor: 'black' }}>
+    <Grid container style={{ backgroundColor: 'black' }}
+    spacing={1}>
       <audio
         ref={audioRef}
         src={props.src}
@@ -77,11 +93,11 @@ function AudioPlayer(props) {
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={handleTimeUpdate}
       />
-      <Grid item xs={1}>
+      <Grid item>
       <IconButton style={{ color: 'white' }} onClick={togglePlay}>{isPlaying ? <PauseIcon/> : <PlayArrowIcon/>}</IconButton>
       </Grid>
 
-      <Grid item xs={8}>
+      <Grid item xs={7}>
       <Slider 
       style={{ color: 'white' }}
       value={currentTime}
@@ -92,8 +108,8 @@ function AudioPlayer(props) {
       />
       </Grid>
       <Grid item>
-        <Typography id="audio-seek">
-          {currentTime.toFixed(0)} / {duration.toFixed(0)}
+        <Typography id="audio-seek" sx={{color:"white"}}>
+          {secondsToHHMMSS(currentTime.toFixed(0))} / {secondsToHHMMSS(duration.toFixed(0))}
         </Typography>
       </Grid>
       <Grid item>
@@ -102,12 +118,9 @@ function AudioPlayer(props) {
       <Grid item>
       <IconButton style={{ color: 'white' }} onClick={handleNext}><SkipNextIcon/></IconButton>
       </Grid>
-
-
       <Grid item>
       <IconButton style={{ color: 'white' }} onClick={toggleMute}>{isMute ? <VolumeOffIcon/> : <VolumeUpIcon/>}</IconButton>
       </Grid>
-
       <Grid item xs={1}>
       <Slider style={{ color: 'white' }} value={volume} min={0} max={1} step={0.01} onChange={updateVolume} />
       </Grid>
