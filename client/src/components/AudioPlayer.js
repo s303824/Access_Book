@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Grid , IconButton, Typography, Slider } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -13,13 +13,19 @@ function AudioPlayer(props) {
   const audioRef = useRef(null);
   const { store } = useContext(GlobalStoreContext);
 
+  useEffect( () => {
+    if(audioRef && currentTime == duration){
+      handleNext()
+    }
+  })
+
   // Create state variables to track the audio playback status and progress
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMute, setIsMute] = useState(false);
 
   const [volume, setVolume] = useState(0.5);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(1);
 
   // Define a function to toggle the audio playback
   const togglePlay = () => {
@@ -58,13 +64,25 @@ function AudioPlayer(props) {
     }
   }
   const handleNext = () => {
-    if(store.pageNum < store.count)
+    if(store.pageNum < store.count){
       store.nextPage();
+      audioRef.current.currentTime = 0;
+      if (!isPlaying) {
+        audioRef.current.play();
+        setIsPlaying(!isPlaying);
+      }
+      }
   }
 
   const handlePrev = () => {
-    if(store.pageNum > 1)
+    if(store.pageNum > 1){
       store.prevPage();
+      audioRef.current.currentTime = 0;
+      if (!isPlaying) {
+        audioRef.current.play();
+        setIsPlaying(!isPlaying);
+      }  
+    }
   }
 
   const secondsToHHMMSS = (seconds) =>{
