@@ -61,6 +61,10 @@ function AudioPlayer(props) {
     store.nextPage();
   }
 
+  const handlePrev = () => {
+    store.prevPage();
+  }
+
   // Render the audio player
   return (
     <Grid container style={{ backgroundColor: 'black' }}>
@@ -91,7 +95,7 @@ function AudioPlayer(props) {
         </Typography>
       </Grid>
       <Grid item>
-      <IconButton style={{ color: 'white' }}><SkipPreviousIcon/></IconButton>
+      <IconButton style={{ color: 'white' }} onClick={handlePrev}><SkipPreviousIcon/></IconButton>
       </Grid>
       <Grid item>
       <IconButton style={{ color: 'white' }} onClick={handleNext}><SkipNextIcon/></IconButton>

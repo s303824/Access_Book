@@ -11,7 +11,8 @@ export const GlobalStoreContext = createContext();
 function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         file: null,
-        pageNum: 1
+        pageNum: 1,
+        text : ""
         });
     const navigate= useNavigate();
 
@@ -26,7 +27,8 @@ function GlobalStoreContextProvider(props) {
             console.log(response.data);
             setStore({
               file : selectedFile,
-              pageNum : 1
+              pageNum : 1,
+              text : response.data
             });
           }).catch((error) => {
             console.error(error);
@@ -43,7 +45,8 @@ function GlobalStoreContextProvider(props) {
           console.log(response.data);
           setStore({
             file : store.file,
-            pageNum : store.pageNum + 1
+            pageNum : store.pageNum + 1,
+            text : response.data
           });
 
         }).catch((error) => {
@@ -60,7 +63,8 @@ function GlobalStoreContextProvider(props) {
         console.log(response.data);
         setStore({
           file : store.file,
-          pageNum : store.pageNum - 1
+          pageNum : store.pageNum - 1,
+          text : response.data
         });
 
       }).catch((error) => {
