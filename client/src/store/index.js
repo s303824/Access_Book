@@ -12,7 +12,8 @@ function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         file: null,
         pageNum: 1,
-        text : ""
+        text : "",
+        count : 1
         });
     const navigate= useNavigate();
 
@@ -24,11 +25,12 @@ function GlobalStoreContextProvider(props) {
         formData.append('number', 1);
 
         api.post('/createAudioFile', formData).then((response) => {
-            console.log(response.data);
+            console.log(response.data.text);
             setStore({
               file : selectedFile,
               pageNum : 1,
-              text : response.data
+              text : response.data.text,
+              count : response.data.pageCount
             });
           }).catch((error) => {
             console.error(error);
@@ -42,12 +44,13 @@ function GlobalStoreContextProvider(props) {
       formData.append('number', store.pageNum + 1);
 
       api.post('/createAudioFile', formData).then((response) => {
-          console.log(response.data);
-          setStore({
+        console.log(response.data.text);
+        setStore({
             file : store.file,
             pageNum : store.pageNum + 1,
-            text : response.data
-          });
+            text : response.data.text,
+            count : response.data.pageCount
+        });
 
         }).catch((error) => {
           console.error(error);
@@ -60,12 +63,13 @@ function GlobalStoreContextProvider(props) {
     formData.append('number', store.pageNum - 1);
 
     api.post('/createAudioFile', formData).then((response) => {
-        console.log(response.data);
-        setStore({
+      console.log(response.data.text);
+      setStore({
           file : store.file,
           pageNum : store.pageNum - 1,
-          text : response.data
-        });
+          text : response.data.text,
+          count : response.data.pageCount
+    });
 
       }).catch((error) => {
         console.error(error);

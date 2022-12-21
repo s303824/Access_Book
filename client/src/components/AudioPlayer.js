@@ -58,11 +58,13 @@ function AudioPlayer(props) {
     }
   }
   const handleNext = () => {
-    store.nextPage();
+    if(store.pageNum < store.count)
+      store.nextPage();
   }
 
   const handlePrev = () => {
-    store.prevPage();
+    if(store.pageNum > 1)
+      store.prevPage();
   }
 
   // Render the audio player

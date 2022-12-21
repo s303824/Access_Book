@@ -12,7 +12,6 @@ function App() {
       <TopBar/>
       <Routes>
         <Route path="/" element={<Book2Speech/>}/>
-        <Route path="/speech" element={<Book2Speech/>}/>
         <Route path="/translate" element={<Translate/>}/>
         <Route path="/read" element={<BookViewer/>}/>
       </Routes>

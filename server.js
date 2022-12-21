@@ -30,18 +30,18 @@ app.post('/createAudioFile', upload.single('pdf'), (req, res) => {
   var loadingTask = pdfjs.getDocument(source);
 
   loadingTask.promise.then(function(doc) {
-    console.log("Number of pages: " + doc.numPages);
-    if(index < 1 || index >  doc.numPages){
-      res.send("INVALID PAGE NUMBER")
-    }
-
     doc.getPage(index).then((page) => {
       page.getTextContent().then((content) => {
         content.items.forEach((item) => {
           console.log(item.str)
           text+=item.str + " ";
         });
-        res.send(text.replace(/\s+/g, ' '));  // send the extracted text
+        res.send({
+          text : text.replace(/\s+/g, ' '),
+          pageCount : doc.numPages
+        }
+          
+          );  // send the extracted text
       });
     });
   });
