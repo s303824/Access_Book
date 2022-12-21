@@ -36,6 +36,9 @@ app.post('/createAudioFile', upload.single('pdf'), (req, res) => {
           console.log(item.str)
           text+=item.str + " ";
         });
+        if(text.includes("This page intentionally left blank")){
+          text = ""
+        }
         res.send({
           text : text.replace(/\s+/g, ' '),
           pageCount : doc.numPages

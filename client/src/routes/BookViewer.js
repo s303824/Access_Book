@@ -6,6 +6,11 @@ import { Typography } from '@mui/material';
 function BookViewer() {
   const { store } = useContext(GlobalStoreContext);
 
+  useEffect(() =>{
+    if(store.text === ""){
+      store.nextPage();
+    }
+  })
 
   return (
     <header className=".App-header">
