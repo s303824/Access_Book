@@ -8,7 +8,7 @@ function Book2Speech() {
   const { store } = useContext(GlobalStoreContext);
 
   const handleInput = (e) =>{
-    store.createAudioFile(e.target.files[0], 1);
+    store.startReading(e.target.files[0]);
   }
   
   return (

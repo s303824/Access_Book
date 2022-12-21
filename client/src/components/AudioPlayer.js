@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Grid , IconButton, Typography, Slider } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -6,10 +6,12 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import { GlobalStoreContext } from '../store'
 
 function AudioPlayer(props) {
   // Create a reference to the audio element
   const audioRef = useRef(null);
+  const { store } = useContext(GlobalStoreContext);
 
   // Create state variables to track the audio playback status and progress
   const [isPlaying, setIsPlaying] = useState(false);
@@ -55,6 +57,9 @@ function AudioPlayer(props) {
       toggleMute();
     }
   }
+  const handleNext = () => {
+    store.nextPage();
+  }
 
   // Render the audio player
   return (
@@ -89,7 +94,7 @@ function AudioPlayer(props) {
       <IconButton style={{ color: 'white' }}><SkipPreviousIcon/></IconButton>
       </Grid>
       <Grid item>
-      <IconButton style={{ color: 'white' }}><SkipNextIcon/></IconButton>
+      <IconButton style={{ color: 'white' }} onClick={handleNext}><SkipNextIcon/></IconButton>
       </Grid>
 
 
