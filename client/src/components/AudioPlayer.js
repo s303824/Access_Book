@@ -6,6 +6,10 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import SettingsIcon from '@mui/icons-material/Settings';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
 import { GlobalStoreContext } from '../store'
 
 function AudioPlayer(props) {
@@ -14,10 +18,13 @@ function AudioPlayer(props) {
   const { store } = useContext(GlobalStoreContext);
 
   useEffect( () => {
-    if(audioRef && currentTime == duration){
+    if(audioRef && currentTime === duration){
       handleNext()
     }
-  })
+    if(audioRef){
+      audioRef.current.playbackRate = playbackRate;
+    }
+  });
 
   // Create state variables to track the audio playback status and progress
   const [isPlaying, setIsPlaying] = useState(false);
@@ -26,6 +33,17 @@ function AudioPlayer(props) {
   const [volume, setVolume] = useState(0.5);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(1);
+  const [playbackRate, setPlaybackRate] = useState(1);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   // Define a function to toggle the audio playback
   const togglePlay = () => {
@@ -59,7 +77,7 @@ function AudioPlayer(props) {
   const updateVolume = (event) => {
     audioRef.current.volume = event.target.value;
     setVolume(event.target.value);
-    if(event.target.value == 0.0){
+    if(event.target.value === 0.0){
       toggleMute();
     }
   }
@@ -85,11 +103,11 @@ function AudioPlayer(props) {
     }
   }
 
-  const secondsToHHMMSS = (seconds) =>{
-    seconds = Number(seconds);
-    var hours = Math.floor(seconds / 3600);
-    var minutes = Math.floor((seconds - (hours * 3600)) / 60);
-    var seconds = seconds - (hours * 3600) - (minutes * 60);
+  const secondsToHHMMSS = (value) =>{
+    var time = Number(value);
+    var hours = Math.floor(time / 3600);
+    var minutes = Math.floor((time - (hours * 3600)) / 60);
+    var seconds = time - (hours * 3600) - (minutes * 60);
   
     // round seconds
     seconds = Math.round(seconds * 100) / 100
@@ -99,6 +117,11 @@ function AudioPlayer(props) {
       result += ":" + (seconds  < 10 ? "0" + seconds : seconds);
     return result;
   }
+
+  const handleSelect = (rate) => {
+    setPlaybackRate(rate);
+    setAnchorEl(null);
+  };
 
   // Render the audio player
   return (
@@ -110,6 +133,8 @@ function AudioPlayer(props) {
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={handleTimeUpdate}
+        playbackRate={playbackRate}
+        preload="auto"
       />
       <Grid item>
       <IconButton style={{ color: 'white' }} onClick={togglePlay}>{isPlaying ? <PauseIcon/> : <PlayArrowIcon/>}</IconButton>
@@ -142,7 +167,23 @@ function AudioPlayer(props) {
       <Grid item xs={1}>
       <Slider style={{ color: 'white' }} value={volume} min={0} max={1} step={0.01} onChange={updateVolume} />
       </Grid>
-
+      <Grid item>
+      <IconButton style={{ color: 'white' }} onClick={handleClick}><SettingsIcon/></IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <Typography>Playback Rate</Typography>
+        {[0.5, 0.75, 1, 1.5, 2].map((rate) => (
+          <MenuItem key={rate} onClick={() => handleSelect(rate)}>{rate}</MenuItem>
+        ))}
+      </Menu>
+      </Grid>
     </Grid >
   );
 }
