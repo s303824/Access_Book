@@ -1,7 +1,7 @@
 import '../App.css';
 import logo from '../assets/megaphone.jpg';
 import { Button } from '@mui/material';
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { GlobalStoreContext } from '../store'
 
 function Book2Speech() {

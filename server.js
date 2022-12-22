@@ -1,7 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const multer = require('multer');
 const pdfjs = require('pdfjs-dist');
+var EPUBJS = require('epubjs');
 const { exec } = require('child_process');
 
 const app = express();
@@ -14,21 +14,17 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
-
-
-
-  //                  TODO: EPUB FILE FUNCTIONALITY
-
   
-app.post('/generateTextPage', upload.single('pdf'), (req, res) => {
+app.post('/generateTextPagePdf', upload.single('pdf'), (req, res) => {
   // req.file contains the PDF file
   // process the file as needed
   const pdfFile = req.file;
   const index = Number(req.body.number);
-
   const source = {
     data: pdfFile.buffer,
   };
+  console.log(source)
+  console.log(typeof(source))
 
   let text = "";
   var loadingTask = pdfjs.getDocument(source);
@@ -51,6 +47,26 @@ app.post('/generateTextPage', upload.single('pdf'), (req, res) => {
     });
   });
 });
+
+app.post('/generateTextPageEpub', upload.single('file'), (req, res) => {
+  const index = Number(req.body.number);
+
+  let text = "";
+  const book = new EPUBJS.Book(req.file.buffer);
+
+    book.load().then(() => {
+      const chapter = book.getChapter(index);
+      const container = document.createElement('div');
+      chapter.renderTo()
+    text = text.trim().replace(/\s+/g, ' ');
+    res.send({
+      text : text,
+      pageCount : book.renderer.pageCount
+    });
+    console.log("------------------Words generated and sent------------------")
+  });
+});
+
 
 app.get('/createAudioFile', (req, res) => {
   // req.file contains the PDF file

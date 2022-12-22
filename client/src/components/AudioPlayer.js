@@ -177,33 +177,31 @@ function AudioPlayer(props) {
         </Typography>
       </Grid>
       <Grid item>
-      <IconButton style={{ color: 'white' }} onClick={handlePrev}><SkipPreviousIcon/></IconButton>
+        <IconButton style={{ color: 'white' }} onClick={handlePrev}><SkipPreviousIcon/></IconButton>
+        <IconButton style={{ color: 'white' }} onClick={handleNext}><SkipNextIcon/></IconButton>
       </Grid>
       <Grid item>
-      <IconButton style={{ color: 'white' }} onClick={handleNext}><SkipNextIcon/></IconButton>
-      </Grid>
-      <Grid item>
-      <IconButton style={{ color: 'white' }} onClick={toggleMute}>{isMute ? <VolumeOffIcon/> : <VolumeUpIcon/>}</IconButton>
+        <IconButton style={{ color: 'white' }} onClick={toggleMute}>{isMute ? <VolumeOffIcon/> : <VolumeUpIcon/>}</IconButton>
       </Grid>
       <Grid item xs={1}>
-      <Slider style={{ color: 'white' }} value={volume} min={0} max={1} step={0.01} onChange={updateVolume} />
+        <Slider style={{ color: 'white' }} value={volume} min={0} max={1} step={0.01} onChange={updateVolume} />
       </Grid>
       <Grid item>
-      <IconButton style={{ color: 'white' }} onClick={handleClick}><SettingsIcon/></IconButton>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <Typography>Playback Rate</Typography>
-        {[0.5, 0.75, 1, 1.5, 2].map((rate) => (
-          <MenuItem key={rate} onClick={() => handleSelect(rate)}>{rate}</MenuItem>
-        ))}
-      </Menu>
+        <IconButton style={{ color: 'white' }} onClick={handleClick}><SettingsIcon/></IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <Typography>Playback Rate</Typography>
+          {[0.5, 0.75, 1, 1.5, 2].map((rate) => (
+            <MenuItem key={rate} onClick={() => handleSelect(rate)}>{rate}</MenuItem>
+          ))}
+        </Menu>
       </Grid>
     </Grid >
   );
