@@ -45,7 +45,7 @@ app.post('/generateTextPage', upload.single('pdf'), (req, res) => {
           text : text,
           pageCount : doc.numPages
         });
-        console.log("------------------Text generated and sent------------------")
+        console.log("------------------Words generated and sent------------------")
 
       });
     });
@@ -59,8 +59,6 @@ app.get('/createAudioFile', (req, res) => {
   // specify the command to run the Python script
   const command = 'python3 ./server/python/tts.py ' + JSON.stringify(text);
   
-  console.log(command)
-
   // execute the Python script
   exec(command, (error, stdout, stderr) => {
     if (error) {
@@ -74,7 +72,7 @@ app.get('/createAudioFile', (req, res) => {
       },
       root: __dirname
     });
-    console.log("------------------Audio file generated and sent------------------")
+    console.log("------------------Audio generated and sent------------------")
   });
 });
 
