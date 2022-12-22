@@ -9,7 +9,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import "../App.css"
 import { GlobalStoreContext } from '../store'
 
 function AudioPlayer(props) {
@@ -23,7 +23,23 @@ function AudioPlayer(props) {
     }
     if(audioRef){
       audioRef.current.playbackRate = playbackRate;
+  
     }
+    const audio = document.querySelector('audio');
+    const loadingIndicator = document.querySelector('.loading-indicator');
+  
+    audio.addEventListener('loadstart', () => {
+      loadingIndicator.style.display = 'block';
+      setLoading(true)
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+
+    });
+  
+    audio.addEventListener('canplaythrough', () => {
+      loadingIndicator.style.display = 'none';
+      setLoading(false);
+    });  
   });
 
   // Create state variables to track the audio playback status and progress
@@ -34,6 +50,7 @@ function AudioPlayer(props) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(1);
   const [playbackRate, setPlaybackRate] = useState(1);
+  const [loading, setLoading] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -123,6 +140,9 @@ function AudioPlayer(props) {
     setAnchorEl(null);
   };
 
+  const playButton = !loading ? <IconButton style={{ color: 'white' }} onClick={togglePlay}> {isPlaying ? <PauseIcon/> : <PlayArrowIcon/>} </IconButton> : null
+
+  const loadSpin = <div class="loading-indicator"></div>
   // Render the audio player
   return (
     <Grid container style={{ backgroundColor: 'black' }}
@@ -136,8 +156,9 @@ function AudioPlayer(props) {
         playbackRate={playbackRate}
         preload="auto"
       />
-      <Grid item>
-      <IconButton style={{ color: 'white' }} onClick={togglePlay}>{isPlaying ? <PauseIcon/> : <PlayArrowIcon/>}</IconButton>
+      <Grid item>      
+      {playButton}
+      {loadSpin}
       </Grid>
 
       <Grid item xs={7}>
