@@ -1,5 +1,5 @@
 import '../App.css';
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalStoreContext } from '../store'
 import AudioPlayer from '../components/AudioPlayer';
 import { Typography } from '@mui/material';

@@ -1,5 +1,5 @@
-import { Navigate, useHistory, useNavigate } from 'react-router-dom'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { createContext, useState } from 'react'
 import axios from 'axios';
 
 const api = axios.create({
@@ -18,6 +18,13 @@ function GlobalStoreContextProvider(props) {
         });
     const navigate= useNavigate();
 
+
+
+      //                  TODO: EPUB FILE FUNCTIONALITY
+      //                  TODO: FILTER OUT BLANK PAGES
+      //                  TODO: HANDLE MP3 FILE PROPERLY
+
+
     store.startReading = (selectedFile) => {
         console.log(selectedFile);
 
@@ -25,19 +32,19 @@ function GlobalStoreContextProvider(props) {
         formData.append('pdf', selectedFile);
         formData.append('number', 1);
 
-        api.post('/createAudioFile', formData).then((response) => {
-            console.log(response.data.text);
+        api.post('/generateTextPage', formData).then((response) => {
+            console.log("Page received")
             setStore({
               file : selectedFile,
-              audio : store.audio,
+              audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
               pageNum : 1,
               text : response.data.text,
               count : response.data.pageCount
             });
+              navigate('/read');
           }).catch((error) => {
             console.error(error);
           });
-         navigate('/read');
     }
 
     store.nextPage =  () => {
@@ -45,16 +52,16 @@ function GlobalStoreContextProvider(props) {
       formData.append('pdf', store.file);
       formData.append('number', store.pageNum + 1);
 
-      api.post('/createAudioFile', formData).then((response) => {
+      api.post('/generateTextPage', formData).then((response) => {
+        console.log("Page received")
         console.log(response.data.text);
         setStore({
             file : store.file,
-            audio : store.audio,
+            audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
             pageNum : store.pageNum + 1,
             text : response.data.text,
             count : response.data.pageCount
         });
-
         }).catch((error) => {
           console.error(error);
         });
@@ -65,16 +72,16 @@ function GlobalStoreContextProvider(props) {
     formData.append('pdf', store.file);
     formData.append('number', store.pageNum - 1);
 
-    api.post('/createAudioFile', formData).then((response) => {
+    api.post('/generateTextPage', formData).then((response) => {
+      console.log("Page received")
       console.log(response.data.text);
       setStore({
           file : store.file,
-          audio : store.audio,
+          audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
           pageNum : store.pageNum - 1,
           text : response.data.text,
           count : response.data.pageCount
-    });
-
+        });
       }).catch((error) => {
         console.error(error);
       });
