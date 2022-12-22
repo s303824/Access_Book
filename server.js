@@ -23,8 +23,6 @@ app.post('/generateTextPagePdf', upload.single('pdf'), (req, res) => {
   const source = {
     data: pdfFile.buffer,
   };
-  console.log(source)
-  console.log(typeof(source))
 
   let text = "";
   var loadingTask = pdfjs.getDocument(source);
@@ -41,7 +39,6 @@ app.post('/generateTextPagePdf', upload.single('pdf'), (req, res) => {
           text : text,
           pageCount : doc.numPages
         });
-        console.log("------------------Words generated and sent------------------")
 
       });
     });
@@ -63,7 +60,6 @@ app.post('/generateTextPageEpub', upload.single('file'), (req, res) => {
       text : text,
       pageCount : book.renderer.pageCount
     });
-    console.log("------------------Words generated and sent------------------")
   });
 });
 
@@ -88,7 +84,6 @@ app.get('/createAudioFile', (req, res) => {
       },
       root: __dirname
     });
-    console.log("------------------Audio generated and sent------------------")
   });
 });
 

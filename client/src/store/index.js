@@ -34,7 +34,6 @@ function GlobalStoreContextProvider(props) {
           formData.append('number', 1);
   
           api.post('/generateTextPagePdf', formData).then((response) => {
-              console.log("Page received")
               setStore({
                 file : selectedFile,
                 audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -54,7 +53,6 @@ function GlobalStoreContextProvider(props) {
           formData.append('number', 1);
   
           api.post('/generateTextPageEpub', formData, {headers: {'Content-Type': 'multipart/form-data'}}).then((response) => {
-              console.log("Page received")
               setStore({
                 file : selectedFile,
                 audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -78,7 +76,6 @@ function GlobalStoreContextProvider(props) {
         formData.append('number', store.pageNum + 1);
     
         api.post('/generateTextPagePdf', formData).then((response) => {
-            console.log("Page received")
             setStore({
               file : store.file,
               audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -98,7 +95,6 @@ function GlobalStoreContextProvider(props) {
         formData.append('number', store.pageNum + 1);
 
         api.post('/generateTextPageEpub', formData).then((response) => {
-            console.log("Page received")
             setStore({
               file : store.file,
               audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -121,7 +117,6 @@ function GlobalStoreContextProvider(props) {
       formData.append('number', store.pageNum - 1);
   
       api.post('/generateTextPagePdf', formData).then((response) => {
-          console.log("Page received")
           setStore({
             file : store.file,
             audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -141,7 +136,6 @@ function GlobalStoreContextProvider(props) {
       formData.append('number', store.pageNum - 1);
 
       api.post('/generateTextPageEpub', formData).then((response) => {
-          console.log("Page received")
           setStore({
             file : store.file,
             audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -164,7 +158,6 @@ store.getPage =  (index) => {
     formData.append('number', index);
 
     api.post('/generateTextPagePdf', formData).then((response) => {
-        console.log("Page received")
         setStore({
           file : store.file,
           audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
@@ -184,7 +177,6 @@ store.getPage =  (index) => {
     formData.append('number', index);
 
     api.post('/generateTextPageEpub', formData).then((response) => {
-        console.log("Page received")
         setStore({
           file : store.file,
           audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
