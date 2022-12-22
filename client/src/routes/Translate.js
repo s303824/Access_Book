@@ -11,6 +11,7 @@ function Translate() {
     store.startReading(event.target.files[0]);
   }
   
+  //                  TODO: EPUB FILE FUNCTIONALITY
   return (
     <div className="App">
       <header className="App-header2">
@@ -19,7 +20,7 @@ function Translate() {
           Select a book and we'll translate it to you!
         </p>
         <input
-          accept=".pdf, .epub"
+          accept=".pdf"
           style={{ display: 'none' }}
           id="raised-button-file"
           type="file"

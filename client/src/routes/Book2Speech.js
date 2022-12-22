@@ -11,6 +11,8 @@ function Book2Speech() {
     store.startReading(e.target.files[0]);
   }
   
+    //                  TODO: EPUB FILE FUNCTIONALITY
+
   return (
     <div className="App">
       <header className="App-header">
@@ -19,7 +21,7 @@ function Book2Speech() {
           Select a book and we'll read it to you!
         </p>
         <input
-          accept=".pdf, .epub"
+          accept=".pdf"
           style={{ display: 'none' }}
           id="raised-button-file"
           type="file"
