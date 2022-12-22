@@ -28,3 +28,19 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.loading-indicator {
+  display: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 8px solid #ccc;
+  border-top-color: #333;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
