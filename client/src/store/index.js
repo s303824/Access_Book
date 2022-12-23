@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { createContext, useState } from 'react'
 import axios from 'axios';
+const pdfjs = require('pdfjs-dist');
 
 const url = 'http://localhost:4000/api'
 const api = axios.create({
@@ -30,168 +31,118 @@ function GlobalStoreContextProvider(props) {
     store.startReading = (selectedFile) => {
         console.log(selectedFile);
         if(selectedFile.type === "application/pdf"){
-          const formData = new FormData();
-          formData.append('pdf', selectedFile);
-          formData.append('number', 1);
-  
-          api.post('/generateTextPagePdf', formData).then((response) => {
-              setStore({
-                file : selectedFile,
-                audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-                pageNum : 1,
-                text : response.data.text,
-                count : response.data.pageCount,
-                type : "Pdf"
+          const source = {
+            data: new Uint8Array(selectedFile.buffer),
+                    };
+        console.log(selectedFile)
+          let text = "";
+          var loadingTask = pdfjs.getDocument(source);
+          loadingTask.promise.then(function(doc) {
+            doc.getPage(1).then((page) => {
+              page.getTextContent().then((content) => {
+                content.items.forEach((item) => {
+                  text+=item.str + " ";
+                });
+                text = text.trim().replace(/\s+/g, ' ');
+                setStore({
+                  file : selectedFile,
+                  audio : url+'/createAudioFile?text='+JSON.stringify(text),
+                  pageNum : 1,
+                  text : text,
+                  count : doc.numPages,
+                  type : "Pdf"
+                });
+                  navigate('/read');
               });
-                navigate('/read');
-            }).catch((error) => {
-              console.error(error);
-            });  
-        }
-        else{
-          const formData = new FormData();
-          formData.append('file', selectedFile);
-          formData.append('number', 1);
-  
-          api.post('/generateTextPageEpub', formData, {headers: {'Content-Type': 'multipart/form-data'}}).then((response) => {
-              setStore({
-                file : selectedFile,
-                audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-                pageNum : 1,
-                text : response.data.text,
-                count : response.data.pageCount,
-                type : "Epub"
-              });
-                navigate('/read');
-            }).catch((error) => {
-              console.error(error);
             });
-  
+          });
         }
     }
 
     store.nextPage =  () => {
       if(store.type === "Pdf"){
-        const formData = new FormData();
-        formData.append('pdf', store.file);
-        formData.append('number', store.pageNum + 1);
-    
-        api.post('/generateTextPagePdf', formData).then((response) => {
-            setStore({
-              file : store.file,
-              audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-              pageNum : store.pageNum + 1,
-              text : response.data.text,
-              count : response.data.pageCount,
-              type : "Pdf"
+          const source = {
+            data: new Uint8Array(store.file.buffer),    };
+        
+          let text = "";
+          var loadingTask = pdfjs.getDocument(source);
+          loadingTask.promise.then(function(doc) {
+            doc.getPage(store.pageNum + 1).then((page) => {
+              page.getTextContent().then((content) => {
+                content.items.forEach((item) => {
+                  text+=item.str + " ";
+                });
+                text = text.trim().replace(/\s+/g, ' ');
+                setStore({
+                  file : store.file,
+                  audio : url+'/createAudioFile?text='+JSON.stringify(text),
+                  pageNum : store.pageNum + 1,
+                  text : text,
+                  count : doc.numPages,
+                  type : "Pdf"
+                });
+              });
             });
-              navigate('/read');
-          }).catch((error) => {
-            console.error(error);
-          });  
-      }
-      else{
-        const formData = new FormData();
-        formData.append('epub', store.file);
-        formData.append('number', store.pageNum + 1);
-
-        api.post('/generateTextPageEpub', formData).then((response) => {
-            setStore({
-              file : store.file,
-              audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-              pageNum : store.pageNum + 1,
-              text : response.data.text,
-              count : response.data.pageCount,
-              type : "Epub"
-            });
-              navigate('/read');
-          }).catch((error) => {
-            console.error(error);
           });
         }
-  }
+    }
 
   store.prevPage =  () => {
     if(store.type === "Pdf"){
-      const formData = new FormData();
-      formData.append('pdf', store.file);
-      formData.append('number', store.pageNum - 1);
-  
-      api.post('/generateTextPagePdf', formData).then((response) => {
-          setStore({
-            file : store.file,
-            audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-            pageNum : store.pageNum - 1,
-            text : response.data.text,
-            count : response.data.pageCount,
-            type : "Pdf"
+      const source = {
+        data: new Uint8Array(store.file.buffer),    };
+    
+      let text = "";
+      var loadingTask = pdfjs.getDocument(source);
+      loadingTask.promise.then(function(doc) {
+        doc.getPage(store.pageNum - 1).then((page) => {
+          page.getTextContent().then((content) => {
+            content.items.forEach((item) => {
+              text+=item.str + " ";
+            });
+            text = text.trim().replace(/\s+/g, ' ');
+            setStore({
+              file : store.file,
+              audio : url+'/createAudioFile?text='+JSON.stringify(text),
+              pageNum : store.pageNum - 1,
+              text : text,
+              count : doc.numPages,
+              type : "Pdf"
+            });
           });
-            navigate('/read');
-        }).catch((error) => {
-          console.error(error);
-        });  
-    }
-    else{
-      const formData = new FormData();
-      formData.append('epub', store.file);
-      formData.append('number', store.pageNum - 1);
-
-      api.post('/generateTextPageEpub', formData).then((response) => {
-          setStore({
-            file : store.file,
-            audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-            pageNum : store.pageNum - 1,
-            text : response.data.text,
-            count : response.data.pageCount,
-            type : "Epub"
-          });
-            navigate('/read');
-        }).catch((error) => {
-          console.error(error);
         });
-      }
+      });
+    }
 }
 
 store.getPage =  (index) => {
   if(store.type === "Pdf"){
-    const formData = new FormData();
-    formData.append('pdf', store.file);
-    formData.append('number', index);
-
-    api.post('/generateTextPagePdf', formData).then((response) => {
-        setStore({
-          file : store.file,
-          audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-          pageNum : index,
-          text : response.data.text,
-          count : response.data.pageCount,
-          type : "Pdf"
+    const source = {
+      data: new Uint8Array(store.file.buffer),    };
+  
+    let text = "";
+    var loadingTask = pdfjs.getDocument(source);
+    loadingTask.promise.then(function(doc) {
+      doc.getPage(index).then((page) => {
+        page.getTextContent().then((content) => {
+          content.items.forEach((item) => {
+            text+=item.str + " ";
+          });
+          text = text.trim().replace(/\s+/g, ' ');
+          setStore({
+            file : store.file,
+            audio : url+'/createAudioFile?text='+JSON.stringify(text),
+            pageNum : store.pageNum + 1,
+            text : text,
+            count : doc.numPages,
+            type : "Pdf"
+          });
         });
-          navigate('/read');
-      }).catch((error) => {
-        console.error(error);
-      });  
-  }
-  else{
-    const formData = new FormData();
-    formData.append('epub', store.file);
-    formData.append('number', index);
-
-    api.post('/generateTextPageEpub', formData).then((response) => {
-        setStore({
-          file : store.file,
-          audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
-          pageNum : index,
-          text : response.data.text,
-          count : response.data.pageCount,
-          type : "Epub"
-        });
-          navigate('/read');
-      }).catch((error) => {
-        console.error(error);
       });
-    }
+    });
+  }
 }
+
 
  
     return (
