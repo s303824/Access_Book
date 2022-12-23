@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
   
-app.post('/generateTextPagePdf', upload.single('pdf'), (req, res) => {
+app.post('/api/generateTextPagePdf', upload.single('pdf'), (req, res) => {
   // req.file contains the PDF file
   // process the file as needed
   const pdfFile = req.file;
@@ -45,7 +45,7 @@ app.post('/generateTextPagePdf', upload.single('pdf'), (req, res) => {
   });
 });
 
-app.post('/generateTextPageEpub', upload.single('file'), (req, res) => {
+app.post('/api/generateTextPageEpub', upload.single('file'), (req, res) => {
   const index = Number(req.body.number);
 
   let text = "";
@@ -64,7 +64,7 @@ app.post('/generateTextPageEpub', upload.single('file'), (req, res) => {
 });
 
 
-app.get('/createAudioFile', (req, res) => {
+app.get('/api/createAudioFile', (req, res) => {
   // req.file contains the PDF file
   // process the file as needed
   const text = req.query.text;
