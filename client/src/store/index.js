@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { createContext, useState } from 'react'
 import axios from 'axios';
 
+const url = 'http://localhost:4000'
 const api = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: url,
 });
 
 export const GlobalStoreContext = createContext();
@@ -36,7 +37,7 @@ function GlobalStoreContextProvider(props) {
           api.post('/generateTextPagePdf', formData).then((response) => {
               setStore({
                 file : selectedFile,
-                audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+                audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
                 pageNum : 1,
                 text : response.data.text,
                 count : response.data.pageCount,
@@ -55,7 +56,7 @@ function GlobalStoreContextProvider(props) {
           api.post('/generateTextPageEpub', formData, {headers: {'Content-Type': 'multipart/form-data'}}).then((response) => {
               setStore({
                 file : selectedFile,
-                audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+                audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
                 pageNum : 1,
                 text : response.data.text,
                 count : response.data.pageCount,
@@ -78,7 +79,7 @@ function GlobalStoreContextProvider(props) {
         api.post('/generateTextPagePdf', formData).then((response) => {
             setStore({
               file : store.file,
-              audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+              audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
               pageNum : store.pageNum + 1,
               text : response.data.text,
               count : response.data.pageCount,
@@ -97,7 +98,7 @@ function GlobalStoreContextProvider(props) {
         api.post('/generateTextPageEpub', formData).then((response) => {
             setStore({
               file : store.file,
-              audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+              audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
               pageNum : store.pageNum + 1,
               text : response.data.text,
               count : response.data.pageCount,
@@ -119,7 +120,7 @@ function GlobalStoreContextProvider(props) {
       api.post('/generateTextPagePdf', formData).then((response) => {
           setStore({
             file : store.file,
-            audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+            audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
             pageNum : store.pageNum - 1,
             text : response.data.text,
             count : response.data.pageCount,
@@ -138,7 +139,7 @@ function GlobalStoreContextProvider(props) {
       api.post('/generateTextPageEpub', formData).then((response) => {
           setStore({
             file : store.file,
-            audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+            audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
             pageNum : store.pageNum - 1,
             text : response.data.text,
             count : response.data.pageCount,
@@ -160,7 +161,7 @@ store.getPage =  (index) => {
     api.post('/generateTextPagePdf', formData).then((response) => {
         setStore({
           file : store.file,
-          audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+          audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
           pageNum : index,
           text : response.data.text,
           count : response.data.pageCount,
@@ -179,7 +180,7 @@ store.getPage =  (index) => {
     api.post('/generateTextPageEpub', formData).then((response) => {
         setStore({
           file : store.file,
-          audio : 'http://localhost:4000/createAudioFile?text='+JSON.stringify(response.data.text),
+          audio : url+'/createAudioFile?text='+JSON.stringify(response.data.text),
           pageNum : index,
           text : response.data.text,
           count : response.data.pageCount,
