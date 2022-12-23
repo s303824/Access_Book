@@ -142,7 +142,7 @@ function AudioPlayer(props) {
 
   const playButton = !loading ? <IconButton style={{ color: 'white' }} onClick={togglePlay}> {isPlaying ? <PauseIcon/> : <PlayArrowIcon/>} </IconButton> : null
 
-  const loadSpin = <div class="loading-indicator"></div>
+  const loadSpin = <div className="loading-indicator"></div>
   // Render the audio player
   return (
     <Grid container style={{ backgroundColor: 'black' }}
@@ -153,7 +153,6 @@ function AudioPlayer(props) {
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={handleTimeUpdate}
-        playbackRate={playbackRate}
         preload="auto"
       />
       <Grid item>      
@@ -197,7 +196,7 @@ function AudioPlayer(props) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <Typography>Playback Rate</Typography>
+          <Typography>Speed</Typography>
           {[0.5, 0.75, 1, 1.5, 2].map((rate) => (
             <MenuItem key={rate} onClick={() => handleSelect(rate)}>{rate}</MenuItem>
           ))}
