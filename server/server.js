@@ -69,7 +69,7 @@ app.get('/api/createAudioFile', (req, res) => {
   // process the file as needed
   const text = req.query.text;
   // specify the command to run the Python script
-  const command = 'python3 ./server/python/tts.py ' + JSON.stringify(text);
+  const command = 'python3 ./python/tts.py ' + JSON.stringify(text);
   
   // execute the Python script
   exec(command, (error, stdout, stderr) => {
@@ -78,7 +78,7 @@ app.get('/api/createAudioFile', (req, res) => {
       return;
     }
 
-    res.sendFile('./server/python/readaloud.mp3', {
+    res.sendFile('./python/readaloud.mp3', {
       headers: {
         'Content-Type': 'audio/mpeg',
       },

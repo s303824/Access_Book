@@ -3,3 +3,6 @@ server/python/readaloud.mp3
 uploads/11797d1197e266dbf7026817900c86d0
 uploads/6eb26ea363de67855b7fff02431b41c0
 uploads/7bbd3c244e3512b9042cf06586e46f22
+
+# Local Netlify folder
+.netlify
