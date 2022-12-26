@@ -20,6 +20,8 @@ function TopBar(){
         setAnchorEl(null);
         navigate("/");
     }
+
+    // TODO: Add         <MenuItem onClick={handleTranslate}>Translate!</MenuItem>
     const handleTranslate = () => {
         setAnchorEl(null);
         navigate("/translate");
@@ -53,7 +55,6 @@ function TopBar(){
           }}
         >
         <MenuItem onClick={handleSpeech}>Book2Speech</MenuItem>
-        <MenuItem onClick={handleTranslate}>Translate!</MenuItem>
               </Menu>
               <div>
                   <Button variant="text" onClick={handleReturn}>
